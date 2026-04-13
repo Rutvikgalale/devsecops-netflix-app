@@ -6,5 +6,10 @@ pipeline{
         cleanWs()
       }
     }
+    stage("cloning workspace"){
+      steps{
+        git branch: "main", url: "https://github.com/Rutvikgalale/devsecops-netflix-app.git"
+      }
+    }
   }
 }
