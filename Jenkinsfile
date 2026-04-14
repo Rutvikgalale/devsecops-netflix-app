@@ -40,14 +40,13 @@ pipeline{
         sh "npm install"
       }
     }
-/*
-    stage("owasp dependency check"){
-      steps{
-        dependencyCheck additionalArguments: '--scan ./ --disableYarnAudit --disableNodeAudit', odcInstallation: 'dp'
-        dependencyCheckPublisher pattern: '**/dependency-check-report.xml'
-      }
-    }
-*/
+
+ //  stage("owasp dependency check"){
+ //     steps{
+ //       dependencyCheck additionalArguments: '--scan ./ --disableYarnAudit --disableNodeAudit', odcInstallation: 'dp'
+ //       dependencyCheckPublisher pattern: '**/dependency-check-report.xml'
+ //     }
+ //   }
     stage("trivy FS scan"){
       steps{
         sh "trivy fs . > trivyfs.txt"
