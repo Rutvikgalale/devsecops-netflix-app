@@ -46,5 +46,10 @@ pipeline{
         dependencyCheckPublisher pattern: '**/dependency-check-report.xml'
       }
     }
+    stage("trivy FS scan"){
+      steps{
+        sh "trivy fs . > trivyfs.txt"
+      }
+    }
   }
 }
