@@ -79,6 +79,7 @@ pipeline{
         sh "docker run -dit --restart unless-stopped --name ${APP_NAME} -p 8081:80 ${IMAGE_NAME}"
       }
     }
+  }
     post {
       always {
         emailext attachLog: true,
@@ -90,5 +91,4 @@ pipeline{
             attachmentsPattern: 'trivyfs.txt,trivyimage.txt'
       }
     }
-  }
 }
