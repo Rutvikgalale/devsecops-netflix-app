@@ -5,6 +5,9 @@ pipeline{
   }
   environment{
     SCANNER_HOME=tool "sonar-scanner"
+    app_name="netflix"
+    DOCKER_USER="rutvikg"
+    image_name="${DOCKER_USER}/${app_name}"
   }
   stages{
     stage("cleaning workspace"){
@@ -55,17 +58,17 @@ pipeline{
     stage("docker build & push"){
       steps{
         script{
-          withDockerRegistry(credentialsId: 'dockerhub', toolName: 'docker'){
+          withCredentials([usernamePassword(credentialsId: "dockerhub", usernameVariable: "DOCKER_USER", passwordVariable: "DOCKER_PASS")]){
             sh """
-              echo "deployment started"
-              docker build --build-arg TMDB_V3_API_KEY=d5ca9ac9c910b2b310aa01e2d794a5e8 -t netflix .
-              docker tag netflix:latest rutvikg/netflix:latest
-              docker push rutvikg/netflix:latest
-            """
+            echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
+            docker build --build-arg TMDB_V3_API_KEY=d5ca9ac9c910b2b310aa01e2d794a5e8 -t ${app_name} .
+            docker tag ${app_name} ${image_name}
+            docker push "${image_name}"
+              """
+            }
           }
         }
       }
-    }
     stage("trivy image scan"){
       steps{
         sh "trivy image rutvikg/netflix:latest > trivyimage.txt"
