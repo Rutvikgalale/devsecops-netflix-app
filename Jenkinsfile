@@ -79,5 +79,16 @@ pipeline{
         sh "docker run -dit --restart unless-stopped --name ${APP_NAME} -p 8081:80 ${IMAGE_NAME}"
       }
     }
+    post {
+      always {
+        emailext attachLog: true,
+            subject: "'${currentBuild.result}'",
+            body: "Project: ${env.JOB_NAME}<br/>" +
+                "Build Number: ${env.BUILD_NUMBER}<br/>" +
+                "URL: ${env.BUILD_URL}<br/>",
+            to: 'rutvikgalale@gmail.com',
+            attachmentsPattern: 'trivyfs.txt,trivyimage.txt'
+      }
+    }
   }
 }
