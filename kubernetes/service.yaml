@@ -7,5 +7,5 @@ spec:
   selector:
     app: netflix
   ports:
-    - targetPort: 8082
+    - targetPort: 80
       port: 80
