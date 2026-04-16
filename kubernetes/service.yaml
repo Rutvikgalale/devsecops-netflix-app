@@ -1,0 +1,11 @@
+apiversion: v1
+kind: Service
+metadata:
+  name: netflix-service
+spec:
+  type: LoadBalancer
+  selector:
+    app: netflix
+  ports:
+    - targetPort: 8082
+      port: 80
